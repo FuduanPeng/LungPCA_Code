@@ -1,4 +1,3 @@
-
 rm(list = ls())
 setwd(getwd())
 library(Seurat)
@@ -161,7 +160,7 @@ ggsave('./Results/Figure 3L.png', p, width = 3.33, height = 3)
 # Figure 3M
 load('./Data/Figure 3M.rda')
 
-p1 <- ggplot(KAC_mat, aes(x = clone_new, y = percentage, fill = lesions)) + 
+p1 <- ggplot(RP_clone_mat, aes(x = clone_new, y = percentage, fill = lesions)) + 
   scale_fill_manual(values = c('#11A579', '#66C5CC', '#ed5887')) + 
   geom_boxplot(lwd = 0.1, width = 0.7, show.legend = T, outlier.shape = NA, position = position_dodge(0.8)) +
   geom_dotplot(binaxis = 'y', stackdir = 'center', position = position_dodge(0.8), dotsize = 0.8)+
@@ -175,11 +174,11 @@ p1 <- ggplot(KAC_mat, aes(x = clone_new, y = percentage, fill = lesions)) +
         strip.background = element_rect(fill = NA, colour = NA), 
         text = element_text(size = 6), legend.position = 'right') 
 
-p2 <- ggplot(RP_clone_mat, aes(x = clone_new, y = KAC_Score, fill = clone_new)) +
+p2 <- ggplot(KAC_mat, aes(x = clone_new, y = KAC_Score, fill = clone_new)) +
   geom_violin(lwd = 0.2) +
   geom_boxplot(lwd = 0.2, width = 0.3, fill = 'white', outlier.shape = NA) +
   scale_fill_manual(values = c('#1f77b4', '#e377c2', '#aec7e8', '#d62728')) +
-  stat_compare_means(comparisons = list(c('Ref', 'Shared'), c('Ref', 'Invasive-specific'), c('Shared', 'Invasive-specific')), label = 'p.format', vjust = 0, size = 1.5) +
+  stat_compare_means(comparisons = list(c('Ref', 'Shared'), c('Ref', 'Invasive-specific'), c('Shared', 'Invasive-specific')), method = 't.test', label = 'p.format', vjust = 0, size = 1.5) +
   ggtitle('Evolution Pattern 1a') +
   labs(x = '', y = 'RPII clones (%) by sample') +
   theme_classic()+
